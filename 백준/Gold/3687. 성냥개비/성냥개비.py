@@ -20,9 +20,8 @@ if __name__ == '__main__':
     dp[5] = 2
     dp[6] = 6
     dp[7] = 8
-    dp[8] = 10
 
-    for i in range(9,101):
+    for i in range(8,101):
         for k in range(2,8):
             if k == 6:
                 dp[i] = min(dp[i], int(str(int(dp[i-k])) +"0"))

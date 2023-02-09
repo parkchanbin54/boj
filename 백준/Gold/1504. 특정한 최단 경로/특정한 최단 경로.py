@@ -1,29 +1,46 @@
-from heapq import heappush, heappop
 import sys
-input = sys.stdin.readline
-n, e = map(int, input().split())
-s = [[] for i in range(n + 1)]
-inf = sys.maxsize
-for i in range(e):
-    a, b, c = map(int, input().split())
-    s[a].append([b, c])
-    s[b].append([a, c])
-v1, v2 = map(int, input().split())
-def dijkstra(start):
-    dp = [inf for i in range(n + 1)]
-    dp[start] = 0
-    heap = []
-    heappush(heap, [0, start])
-    while heap:
-        w, c = heappop(heap)
-        for n_n, n_w in s[c]:
-            wei = n_w + w
-            if dp[n_n] > wei:
-                dp[n_n] = wei
-                heappush(heap, [wei, n_n])
-    return dp
-one = dijkstra(1)
-v1_ = dijkstra(v1)
-v2_ = dijkstra(v2)
-cnt = min(one[v1] + v1_[v2] + v2_[n], one[v2] + v2_[v1] + v1_[n])
-print(cnt if cnt < inf else -1)
+import heapq
+
+def dijkstra(x):
+    pq = []
+    heapq.heappush(pq,(0,x))
+    visited = [1e9 for _ in range(n + 1)]
+    visited[x] = 0
+
+    while pq:
+        d, x = heapq.heappop(pq)
+
+        if visited[x] < d:
+            continue
+
+        for nw, nx in graph[x]:
+            nd = nw + d
+            if visited[nx] > nd:
+                visited[nx] = nd
+                heapq.heappush(pq,(nd,nx))
+
+    return visited
+
+if __name__ == '__main__':
+    input = sys.stdin.readline
+
+    n, e = map(int, input().split())
+
+    graph = [[] for _ in range(n+1)]
+    for _ in range(e):
+        a, b, c = map(int,input().split())
+        graph[a].append((c,b))
+        graph[b].append((c,a))
+
+    v1, v2 = map(int,input().split())
+    flag = True
+
+    start = dijkstra(1)
+    v1_ = dijkstra(v1)
+    v2_ = dijkstra(v2)
+    ans = min(start[v1] + v1_[v2] + v2_[n], start[v2] + v2_[v1] + v1_[n])
+
+    if ans < 1e9:
+        print(ans)
+    else:
+        print(-1)

@@ -3,30 +3,31 @@ import sys
 if __name__ == '__main__':
     input = sys.stdin.readline
 
-    t = int(input())
+    n = int(input())
 
-    for i in range(t):
-        n, k = map(int,input().split())
-        files = list(map(int,input().split()))
+    for i in range(n):
+        n, m  = map(int,input().split())
+        days = list(map(int,input().split()))
 
-        mem = [0]
+        mem = [-1]
 
-        for file in files:
-            if mem[-1] < file:
-                mem.append(file)
+        for day in days:
+            if mem[-1] < day:
+                mem.append(day)
+
             else:
                 left = 0
                 right = len(mem)
+
                 while left < right:
                     mid = (left + right)//2
-                    if mem[mid] < file:
+
+                    if mem[mid] < day:
                         left = mid + 1
                     else:
                         right = mid
 
-                mem[right] = file
-        print("Case #" + str(i + 1))
-        if len(mem) > k:
-            print(1)
-        else:
-            print(0)
+                mem[right] = day
+
+        print("Case #"+str(i+1))
+        print(1 if len(mem)-1 >= m else 0)

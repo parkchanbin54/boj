@@ -1,0 +1,36 @@
+import sys
+
+if __name__ == '__main__':
+    input = sys.stdin.readline
+
+    N = int(input())
+    M = int(input())
+
+    vRoot = [i for i in range(N+1)]
+
+    Elist = [list(map(int,input().split())) for _ in range(M)]
+
+    Elist.sort(key = lambda x:x[2])
+
+    def find(x):
+        if x != vRoot[x]:
+            vRoot[x] = find(vRoot[x])
+        return vRoot[x]
+
+
+    ans = 0
+
+    for s,e,w in Elist:
+        sRoot = find(s)
+        eRoot = find(e)
+
+        if sRoot != eRoot:
+            if sRoot > eRoot:
+                vRoot[sRoot] = eRoot
+            else:
+                vRoot[eRoot] = sRoot
+
+            ans += w
+
+
+    print(ans)

@@ -1,39 +1,33 @@
-from sys import stdin
+import sys
 
-read = stdin.readline
-V, S = map(int, read().split())
+if __name__ == '__main__':
+    input = sys.stdin.readline
+    N, E = map(int,input().split())
+    Vroot = [i for i in range(N+1)]
+    Elist = []
 
-edge = []
-for _ in range(S):
-    a, b, w = map(int, read().split())
-    edge.append((w, a, b))
+    for _ in range(E):
+        Elist.append(list(map(int,input().split())))
 
-edge.sort(key=lambda x: x[0])
+    Elist.sort(key = lambda x : x[2])
 
-parent = list(range(V + 1))
-
-
-def union(a, b):
-    a = find(a)
-    b = find(b)
-
-    if b < a:
-        parent[a] = b
-    else:
-        parent[b] = a
+    def find(x):
+        if x != Vroot[x]:
+            Vroot[x] = find(Vroot[x])
+        return Vroot[x]
 
 
-def find(a):
-    if a == parent[a]:
-        return a
-    parent[a] = find(parent[a])  
-    return parent[a]
+    answer = 0
 
+    for s, e, w in Elist:
+        sRoot = find(s)
+        eRoot = find(e)
+        if sRoot != eRoot:
+            if sRoot > eRoot:
+                Vroot[sRoot] = eRoot
+            else:
+                Vroot[eRoot] = sRoot
 
-sum = 0
-for w, s, e in edge:
-    if find(s) != find(e):
-        union(s, e)
-        sum += w
+            answer += w
 
-print(sum)
+    print(answer)

@@ -6,40 +6,33 @@ if __name__ == '__main__':
 
     n = int(input())
     m = int(input())
-
-    graph = [list(map(int,input().split())) for _ in range(n)]
-
     vRoot = [i for i in range(n)]
-    sch = list(map(int,input().split()))
 
     def find(x):
         if x != vRoot[x]:
             vRoot[x] = find(vRoot[x])
         return vRoot[x]
 
-    flag = True
-
     def union(x, y):
-        xRoot = find(x)
-        yRoot = find(y)
+        x = find(x)
+        y = find(y)
 
-        if xRoot != yRoot:
-            if xRoot > yRoot:
-                vRoot[xRoot] = yRoot
+        if x != y:
+            if x > y:
+                vRoot[x] = y
             else:
-                vRoot[yRoot] = xRoot
+                vRoot[y] = x
+
 
     for i in range(n):
+        tmp = list(map(int,input().split()))
         for j in range(n):
-            if graph[i][j] == 1:
+            if tmp[j] == 1:
                 union(i,j)
 
 
-
-
-
-
     vRoot = [-1] + vRoot
+    sch = list(map(int,input().split()))
     start = vRoot[sch[0]]
 
     for i in range(1,m):

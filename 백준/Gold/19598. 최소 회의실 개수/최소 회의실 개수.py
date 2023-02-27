@@ -1,22 +1,23 @@
 import sys
 import heapq
+
 if __name__ == '__main__':
     input = sys.stdin.readline
+
     n = int(input())
-    heap = []
+    classes = []
     for _ in range(n):
         s, e = map(int,input().split())
-        heapq.heappush(heap,(s,e))
+        classes.append((s,e))
 
+    classes.sort()
+    queue = []
 
-    pq = []
-    s, e = heapq.heappop(heap)
-    heapq.heappush(pq,e)
+    heapq.heappush(queue,classes[0][1])
 
-    while heap:
-        s, e = heapq.heappop(heap)
-        if pq[0] <= s:
-            heapq.heappop(pq)
-        heapq.heappush(pq,e)
+    for c in classes[1:]:
+        if c[0] >= queue[0]:
+            heapq.heappop(queue)
+        heapq.heappush(queue,c[1])
 
-    print(len(pq))
+    print(len(queue))

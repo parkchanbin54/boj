@@ -1,34 +1,43 @@
-import sys
 import heapq
+import sys
 
-input = sys.stdin.readline
-INF = sys.maxsize
-V, E = map(int, input().split())
-K = int(input())
-dp = [INF]*(V+1)
-heap = []
-graph = [[] for _ in range(V + 1)]
+def dijkstra(x):
+    pq = []
+    heapq.heappush(pq,(0,x))
+    visited[x] = 0
 
-def Dijkstra(start):
-    dp[start] = 0
-    heapq.heappush(heap,(0, start))
-    while heap:
-        wei, now = heapq.heappop(heap)
-        if dp[now] < wei:
+    while pq:
+        d, x = heapq.heappop(pq)
+
+        if visited[x] < d:
             continue
 
-        for w, next_node in graph[now]:
-            next_wei = w + wei
-            if next_wei < dp[next_node]:
-                dp[next_node] = next_wei
-                heapq.heappush(heap,(next_wei,next_node))
+        for nw, nx in graph[x]:
+            nd = d + nw
 
-for _ in range(E):
-    u, v, w = map(int, input().split())
-    graph[u].append((w, v))
+            if visited[nx] > nd:
+                visited[nx] = nd
+                heapq.heappush(pq, (nd, nx))
 
 
-Dijkstra(K)
-for i in range(1,V+1):
-    print("INF" if dp[i] == INF else dp[i])
-        
+
+
+if __name__ == '__main__':
+    input = sys.stdin.readline
+    V, E = map(int,input().split())
+
+    K = int(input())
+
+    graph = [[] for _ in range(V+1)]
+
+    visited = [1e9] * (V + 1)
+
+    for _ in range(E):
+        a, b, c = map(int,input().split())
+        graph[a].append((c,b))
+
+
+    dijkstra(K)
+
+    for i in range(1,V+1):
+        print("INF" if visited[i]==1e9 else(visited[i]))

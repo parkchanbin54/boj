@@ -1,14 +1,20 @@
-n, m = map(int, input().split())
-s = []
+import sys
 
-def dfs(start):
-    if len(s) == m:
-        print(' '.join(map(str ,s)))
+def back_tracking(j):
+    if len(tmp) == m:
+        print(*tmp)
         return
 
-    for i in range(start, n+1):
-        if i not in s:
-            s.append(i)
-            dfs(i+1)
-            s.pop()
-dfs(1)
+    for i in range(j+1,n):
+        tmp.append(nums[i])
+        back_tracking(i)
+        tmp.pop()
+
+if __name__ == '__main__':
+    input = sys.stdin.readline
+    tmp = []
+    n, m = map(int,input().split())
+
+    nums = [i for i in range(1,n+1)]
+
+    back_tracking(-1)

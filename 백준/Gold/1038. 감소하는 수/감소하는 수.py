@@ -1,18 +1,22 @@
 import sys
-from itertools import combinations
 
-n = int(sys.stdin.readline())
 
-nums = list()              
-for i in range(1, 11):      
-    for comb in combinations(range(0, 10), i):  
-        comb = list(comb)
-        comb.sort(reverse=True)                     
-        nums.append(int("".join(map(str, comb))))
+def back_tracking(idx):
+    ans.append(int(idx))
+    for j in range(0, int(idx[-1])):
+        back_tracking(idx + str(j))
 
-nums.sort() 
+if __name__ == '__main__':
+    input = sys.stdin.readline
 
-try:
-    print(nums[n])
-except:    
-    print(-1)
+    n = int(input())
+
+    ans = []
+
+    if n > 1022:
+        print(-1)
+    else:
+        for i in range(10):
+            back_tracking(str(i))
+
+        print(sorted(ans)[n])

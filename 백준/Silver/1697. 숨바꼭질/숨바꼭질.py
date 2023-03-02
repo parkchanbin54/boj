@@ -1,16 +1,26 @@
+import sys
 from collections import deque
 
-start, end = map(int, input().split())
-MAX=10**5
-dist = [0]*(MAX + 1)
-q= deque()
-q.append(start)
-while q:
-    x=q.popleft()
-    if x==end:
-        print(dist[x])
-        break
-    for nx in (x-1 , x+1 , x *2):
-        if 0<= nx <= MAX and not dist[nx]:
-            dist[nx]= dist[x] +1
-            q.append(nx)
+if __name__ == '__main__':
+    input = sys.stdin.readline
+
+    n, m = map(int,input().split())
+
+    queue = deque()
+
+    queue.append((n,0))
+    visited = [False] * 100001
+    while queue:
+        cur, d  = queue.popleft()
+
+        if cur == m:
+            print(d)
+            break
+
+        for i in [cur-1, cur+1, cur*2]:
+            if 0 <= i < 100001:
+                if visited[i]:
+                    continue
+                queue.append((i, d+1))
+                visited[i] = True
+

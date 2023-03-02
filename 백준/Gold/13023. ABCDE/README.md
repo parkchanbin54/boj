@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 30840 KB, 시간: 3116 ms
+메모리: 31256 KB, 시간: 1060 ms
 
 ### 분류
 
-깊이 우선 탐색(dfs), 그래프 이론(graphs), 그래프 탐색(graph_traversal)
+백트래킹(backtracking), 깊이 우선 탐색(dfs), 그래프 이론(graphs), 그래프 탐색(graph_traversal)
 
 ### 문제 설명
 

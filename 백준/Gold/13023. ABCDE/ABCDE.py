@@ -1,46 +1,37 @@
 import sys
 
+
+def back_tracking(start):
+    if len(tmp) == 5:
+        return 0
+
+    for x in graph[start]:
+        if x not in tmp:
+            tmp.append(x)
+            if back_tracking(x) == 0:
+                return 0
+            tmp.pop()
+
+
 if __name__ == '__main__':
     input = sys.stdin.readline
 
     n, m = map(int,input().split())
 
-    relations = [[] for _ in range(n)]
-    relations.sort()
+    graph = [[] for _ in range(n)]
 
-    ans  = False
 
-    visited = [False] * 2001
 
     for _ in range(m):
         a,b = map(int,input().split())
-        relations[a].append(b)
-        relations[b].append(a)
-
-    def dfs(k, depth):
-        global ans
-        visited[k] = True
-
-        if depth ==4:
-            ans = True
-            return
-        for i in relations[k]:
-            if not visited[i]:
-                visited[i] = True
-                dfs(i,depth + 1)
-                visited[i] = False
+        graph[a].append(b)
+        graph[b].append(a)
 
 
     for i in range(n):
-        dfs(i,0)
-        visited[i] = False
-        if ans:
+        tmp = [i]
+        if back_tracking(i) == 0:
+            print(1)
             break
-
-    if ans:
-        print(1)
     else:
         print(0)
-
-
-

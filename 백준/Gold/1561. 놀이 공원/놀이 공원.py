@@ -5,19 +5,21 @@ if __name__ == '__main__':
 
     n, m = map(int,input().split())
     time = list(map(int,input().split()))
+
     if n < m:
         print(n)
     else:
-        left = 0
-        right = 60000000000
+        left, right = 0, 60000000000
         end = 0
         while left <= right:
-            mid = (left + right) // 2
+            mid = (left + right)//2
             cnt = m
+
             for t in time:
                 cnt += mid // t
+
             if cnt >= n:
-                right = mid - 1
+                right = mid -1
                 end = mid
             else:
                 left = mid + 1
@@ -32,3 +34,5 @@ if __name__ == '__main__':
             if cnt == n:
                 print(i+1)
                 break
+
+

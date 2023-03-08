@@ -1,9 +1,8 @@
 import sys
-
 def bitmask():
     global maxans
 
-    for i in range(1 << n * m):
+    for i in range(1 << n*m):
         total = 0
         for row in range(n):
             rowsum = 0
@@ -19,16 +18,14 @@ def bitmask():
         for col in range(m):
             colsum = 0
             for row in range(n):
-                idx = row * m +col
+                idx = row * m + col
                 if i & (1 << idx) == 0:
                     colsum = colsum * 10 + graph[row][col]
                 else:
                     total += colsum
                     colsum = 0
             total += colsum
-
-        maxans = max(maxans,total)
-
+        maxans = max(maxans, total)
 
 
 

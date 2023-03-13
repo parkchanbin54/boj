@@ -3,30 +3,32 @@ import sys
 if __name__ == '__main__':
     input = sys.stdin.readline
     n = int(input())
+    graph = [list(map(int,input().split())) for _ in range(n)]
+    ab, cd = [], []
+    for i in range(n):
+        for j in range(n):
+            ab.append(graph[i][0] + graph[j][1])
+            cd.append(graph[i][2] + graph[j][3])
 
+    ab.sort()
+    cd.sort()
+
+    i, j = 0, len(cd) - 1
     result = 0
-    A,B,C,D = [],[],[],[]
+    while i < len(ab) and j >= 0:
+        if ab[i] + cd[j] == 0:
+            nexti, nextj = i + 1, j - 1
 
-    for _ in range(n):
-        a,b,c,d = map(int,input().split())
-        A.append(a)
-        B.append(b)
-        C.append(c)
-        D.append(d)
+            while nexti < len(ab) and ab[nexti] == ab[i]:
+                nexti += 1
+            while nextj >= 0 and cd[nextj] == cd[j]:
+                nextj -= 1
 
-    ab = dict()
-    for a in A:
-        for b in B:
-            v = a + b
-            if v not in ab.keys():
-                ab[v] = 1
-            else:
-                ab[v] += 1
-
-    for c in C:
-        for d in D:
-            v = -1 * (c + d)
-            if v in ab.keys():
-                result += ab[v]
+            result += (nexti - i) * (j - nextj)
+            i, j = nexti, nextj
+        elif ab[i] + cd[j] > 0:
+            j -= 1
+        else:
+            i += 1
 
     print(result)

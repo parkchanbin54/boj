@@ -1,19 +1,18 @@
 import sys
-
 sys.setrecursionlimit(10 ** 7)
-def dfs(x):
+def cycle(x):
     global ans
-    vis[x] = True
-    cycle.append(x)
+
+    visited[x] = True
     num = students[x]
+    tmp.append(x)
 
-    if vis[num]:
-        if num in cycle:
-            ans += cycle[cycle.index(num):]
-        return
+    if visited[num]:
+        if num in tmp:
+            ans += len(tmp[tmp.index(num):])
+            return
     else:
-        return dfs(num)
-
+        return cycle(num)
 
 if __name__ == '__main__':
     input = sys.stdin.readline
@@ -22,15 +21,12 @@ if __name__ == '__main__':
 
     for _ in range(t):
         n = int(input())
+        ans = 0
+        students = [-1] + list(map(int,input().split()))
 
-        students = [0] + list(map(int,input().split()))
-        vis = [False] * (n+1)
-        ans = []
-
-        for i in range(n+1):
-
-            if not vis[i]:
-                cycle = []
-                dfs(i)
-
-        print(n - len(ans) + 1)
+        visited = [False] * (n + 1)
+        for i in range(1,n+1):
+            if not visited[i]:
+                tmp = []
+                cycle(i)
+        print(n - ans)

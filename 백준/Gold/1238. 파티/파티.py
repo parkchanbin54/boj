@@ -1,44 +1,45 @@
-import heapq
 import sys
+import heapq
 
-input = sys.stdin.readline
-INF = int(1e9)
+def dijkstra(x):
+    visited= [1e9] * (n+1)
+    pq = []
+    heapq.heappush(pq,(0,x))
+    visited[x] = 0
+    while pq:
+        d, x = heapq.heappop(pq)
 
-v, e, x = map(int, input().split())
-graph = [[] for _ in range(v + 1)]
-
-for _ in range(e):
-    a, b, cost = map(int, input().split())
-    graph[a].append((b, cost))
-
-
-def dijkstra(start):
-    q = []
-    distance = [INF] * (v + 1)
-
-    heapq.heappush(q, (0, start))
-    distance[start] = 0
-
-    while q:
-        dist, now = heapq.heappop(q)
-
-        if distance[now] < dist:
+        if visited[x] < d:
             continue
 
-        for node_index, node_cost in graph[now]:
-            cost = dist + node_cost
+        for nw, nx in graph[x]:
+            nd = nw + d
+            if visited[nx] > nd:
+                visited[nx] = nd
+                heapq.heappush(pq,(nd,nx))
 
-            if distance[node_index] > cost:
-                distance[node_index] = cost
-                heapq.heappush(q, (cost, node_index))
+    return visited
 
-    return distance
+if __name__ == '__main__':
+    input = sys.stdin.readline
+    n, m, x = map(int,input().split())
+    graph = [[] for _ in range(n+1)]
+    for _ in range(m):
+        a,b,c = map(int,input().split())
+        graph[a].append((c,b))
 
+    ans = 0
+    num = 0
 
-result = 0
-for i in range(1, v + 1):
-    go = dijkstra(i)
     back = dijkstra(x)
-    result = max(result, go[x] + back[i])
 
-print(result)
+    for i in range(1,n+1):
+        if i == x:
+            continue
+        else:
+            r = dijkstra(i)[x] + back[i]
+            if ans < r:
+                ans = r
+
+
+    print(ans)

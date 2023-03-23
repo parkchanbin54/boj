@@ -1,17 +1,15 @@
 import sys
+from collections import defaultdict
 
 if __name__ == '__main__':
     input = sys.stdin.readline
-
     n = int(input())
+    nums = [0]+ list(map(int,input().split()))
 
-    nums = [0] + list(map(int,input().split()))
+    mem = [-1]
     dp = [0] * (n+1)
-
-    mem = [-1000000001]
-
     for i in range(1,n+1):
-        if mem[-1] < nums[i]:
+        if nums[i] > mem[-1]:
             mem.append(nums[i])
             dp[i] = len(mem) - 1
 
@@ -28,10 +26,10 @@ if __name__ == '__main__':
                     right = mid
             dp[i] = right
             mem[right] = nums[i]
-
     m = max(dp)
     ans = []
-    for i in range(n,0,-1):
+
+    for i in range(n, 0, -1):
         if dp[i] == m:
             ans.append(nums[i])
             m -= 1

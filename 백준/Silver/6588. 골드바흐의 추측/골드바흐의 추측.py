@@ -1,25 +1,18 @@
-import sys
+from sys import stdin
 
-if __name__ == '__main__':
-    prime = [True] * 1000001
-    prime[0],prime[1] = False,False
+array = [True for i in range(1000001)]
 
-    for i in range(2,1000):
-        if prime[i]:
-            for j in range(i,1000000//i + 1):
-                prime[i*j] = False
+for i in range(2, 1001):
+    if array[i]:
+        for k in range(i + i, 1000001, i):
+            array[k] = False
 
+while True:
+    n = int(stdin.readline())
 
-    while True:
-        n = int(input())
-        if n == 0:
+    if n == 0: break
+
+    for i in range(3, len(array)):
+        if array[i] and array[n-i]:
+            print(n, "=", i, "+", n-i)
             break
-
-        for i in range(n):
-            if i == n-1:
-                print("Goldbach's conjecture is wrong.")
-            if prime[i] and prime[n-i]:
-                print('{0} = {1} + {2}'.format(n,i,n-i))
-                break
-
-
